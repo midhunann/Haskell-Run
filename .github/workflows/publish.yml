@@ -20,10 +20,10 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install pnpm
-        run: npm install -g pnpm 
+        run: npm install -g pnpm  # ✅ Install pnpm before using it
 
       - name: Install Dependencies
-        run: pnpm install
+        run: pnpm install  # ✅ Now it will work
 
       - name: Package Extension
         run: npx vsce package
