@@ -1,64 +1,67 @@
-import * as vscode from "vscode";
-import * as path from "path";
-import * as fs from "fs";
-import * as os from "os";
+import * as vscode from 'vscode';
 
 export function activate(context: vscode.ExtensionContext) {
-    console.log("HaskellRunner activated!");
+    console.log('Haskell Run extension activated.');
 
     // Command to run the entire Haskell file
-    let runHaskellFile = vscode.commands.registerCommand("haskellrunner.runHaskell", async () => {
+    const runHaskellFile = vscode.commands.registerCommand('haskellrun.runHaskell', async () => {
         const editor = vscode.window.activeTextEditor;
         if (!editor) {
-            vscode.window.showErrorMessage("No active editor found!");
+            vscode.window.showErrorMessage('No active editor found.');
             return;
         }
 
         const document = editor.document;
-        if (document.languageId !== "haskell") {
-            vscode.window.showErrorMessage("This command is only available for Haskell files.");
+        if (document.languageId !== 'haskell') {
+            vscode.window.showErrorMessage('This command is only available for Haskell files.');
             return;
         }
 
-        await document.save(); // Ensure the file is saved before running
+        if (document.isUntitled) {
+            vscode.window.showErrorMessage('Please save the file before running.');
+            return;
+        }
+
+        await document.save();
 
         const filePath = document.fileName;
-        const terminal = vscode.window.createTerminal("Haskell Runner");
+        const terminal = vscode.window.createTerminal('Haskell Run');
         terminal.show();
-        terminal.sendText(`ghci "${filePath}"`);
+        terminal.sendText(`runghc "${filePath}"`);
     });
 
-    // Command to run a selected function
-    let runSelectedFunction = vscode.commands.registerCommand("haskellrunner.runFunction", async () => {
+    // Command to run the selected Haskell function
+    const runSelectedFunction = vscode.commands.registerCommand('haskellrun.runFunction', async () => {
         const editor = vscode.window.activeTextEditor;
         if (!editor) {
-            vscode.window.showErrorMessage("No active editor found!");
+            vscode.window.showErrorMessage('No active editor found.');
             return;
         }
 
         const document = editor.document;
-        if (document.languageId !== "haskell") {
-            vscode.window.showErrorMessage("This command is only available for Haskell files.");
+        if (document.languageId !== 'haskell') {
+            vscode.window.showErrorMessage('This command is only available for Haskell files.');
             return;
         }
 
         const selection = editor.selection;
         const selectedText = document.getText(selection).trim();
-
         if (!selectedText) {
-            vscode.window.showErrorMessage("No function selected!");
+            vscode.window.showErrorMessage('No function selected.');
             return;
         }
 
-        const terminal = vscode.window.createTerminal("Haskell Runner");
+        const filePath = document.fileName;
+        const terminal = vscode.window.createTerminal('Haskell Run');
         terminal.show();
-        terminal.sendText(`ghci -e "${selectedText}"`);
+        terminal.sendText(`ghci "${filePath}"`);
+        terminal.sendText(selectedText);
     });
 
-    context.subscriptions.push(runHaskellFile);
-    context.subscriptions.push(runSelectedFunction);
+    // Register the commands
+    context.subscriptions.push(runHaskellFile, runSelectedFunction);
 }
 
 export function deactivate() {
-    console.log("HaskellRunner deactivated!");
+    console.log('Haskell Run extension deactivated.');
 }

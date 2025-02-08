@@ -2,7 +2,7 @@
   "name": "haskellrun",
   "displayName": "Haskell Run",
   "description": "Haskell Run allows you to run Haskell programs with a single click or shortcut, just like the Python runner in VS Code. No more manually compiling and executing files—simply press a button and see your output instantly in the terminal!",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "midhunan",
   "engines": {
     "vscode": "^1.97.0"
@@ -17,23 +17,31 @@
   "contributes": {
     "commands": [
       {
-        "command": "haskellrunner.runHaskell",
-        "title": "Run Haskell File"
+        "command": "haskellrun.runHaskell",
+        "title": "Run Haskell File",
+        "icon": {
+          "light": "resources/light/play.svg",
+          "dark": "resources/dark/play.svg"
+        }
       },
       {
-        "command": "haskellrunner.runFunction",
-        "title": "Run Selected Haskell Function"
+        "command": "haskellrun.runFunction",
+        "title": "Run Selected Haskell Function",
+        "icon": {
+          "light": "resources/light/function.svg",
+          "dark": "resources/dark/function.svg"
+        }
       }
     ],
     "menus": {
       "editor/title": [
         {
-          "command": "haskellrunner.runHaskell",
+          "command": "haskellrun.runHaskell",
           "when": "editorLangId == haskell",
           "group": "navigation"
         },
         {
-          "command": "haskellrunner.runFunction",
+          "command": "haskellrun.runFunction",
           "when": "editorLangId == haskell && editorHasSelection",
           "group": "navigation"
         }
@@ -69,5 +77,9 @@
   },
   "dependencies": {
     "vsce": "^1.97.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/midhunann/Haskell-Run"
   }
 }
