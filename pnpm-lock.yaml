@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       vsce:
-        specifier: ^2.15.0
-        version: 2.15.0
+        specifier: ^1.97.0
+        version: 1.103.1
     devDependencies:
       '@types/mocha':
         specifier: ^10.0.10
@@ -408,6 +408,9 @@ packages:
     resolution: {integrity: sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw==}
     engines: {node: '>= 8'}
 
+  argparse@1.0.10:
+    resolution: {integrity: sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg==}
+
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
@@ -622,6 +625,9 @@ packages:
     resolution: {integrity: sha512-8QmQKqEASLd5nx0U1B1okLElbUuuttJ/AnYmRXbbbGDWh6uS208EjD4Xqq/I9wK7u0v6O08XhTWnt5XtEbR6Dg==}
     engines: {node: '>= 0.4'}
 
+  denodeify@1.2.1:
+    resolution: {integrity: sha512-KNTihKNmQENUZeKu5fzfpzRqR5S2VMp4gl9RFHiWzj9DfvYQPMJ6XHKNaQxaGCXwPk6y9yme3aUoaiAe+KX+vg==}
+
   detect-libc@2.0.3:
     resolution: {integrity: sha512-bwy0MGW55bG41VqxxypOsdSdGqLwXPI/focwgTYCFMbdUiBAxLg9CFzG08sz2aqzknwiX7Hkl0bQENjg8iLByw==}
     engines: {node: '>=8'}
@@ -669,8 +675,8 @@ packages:
     resolution: {integrity: sha512-ZSW3ma5GkcQBIpwZTSRAI8N71Uuwgs93IezB7mf7R60tC8ZbJideoDNKjHn2O9KIlx6rkGTTEk1xUCK2E1Y2Yg==}
     engines: {node: '>=10.13.0'}
 
-  entities@2.1.0:
-    resolution: {integrity: sha512-hCx1oky9PFrJ611mf0ifBLBRW8lUUVRlFolb5gWRfIELabBlbp9xZvrqZLZAs+NxFnbfQoeGd8wDkygjg7U85w==}
+  entities@2.0.3:
+    resolution: {integrity: sha512-MyoZ0jgnLvB2X3Lg5HqpFmn1kybDiIfEQmKzTb5apr51Rb+T3KdmMiqa70T+bhGnyv7bQ6WMj2QMHpGMmlrUYQ==}
 
   entities@4.5.0:
     resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
@@ -1170,8 +1176,8 @@ packages:
   lie@3.3.0:
     resolution: {integrity: sha512-UaiMJzeWRlEujzAuw5LokY1L5ecNQYZKfmyZ9L7wDHb/p5etKaxXhohBcrw0EYby+G/NA52vRSN4N39dxHAIwQ==}
 
-  linkify-it@3.0.3:
-    resolution: {integrity: sha512-ynTsyrFSdE5oZ/O9GEf00kPngmOfVwazR5GKDq6EYfhlpFug3J2zybX56a2PRRpc9P+FuSoGNAwjlbDs9jJBPQ==}
+  linkify-it@2.2.0:
+    resolution: {integrity: sha512-GnAl/knGn+i1U/wjBz3akz2stz+HrHLsxMwHQGofCDfPvlf+gDKN58UtfmUquTY4/MXeE2x7k19KQmeoZi94Iw==}
 
   load-json-file@4.0.0:
     resolution: {integrity: sha512-Kx8hMakjX03tiGTLAIdJ+lL0htKnXjEZN6hk/tozf/WOuYGdZBJrZ+rCJRbVCugsjB3jMLn9746NsQIf5VjBMw==}
@@ -1183,6 +1189,9 @@ packages:
 
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
+
+  lodash@4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
 
   log-symbols@4.1.0:
     resolution: {integrity: sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg==}
@@ -1203,8 +1212,8 @@ packages:
     resolution: {integrity: sha512-hXdUTZYIVOt1Ex//jAQi+wTZZpUpwBj/0QsOzqegb3rGMMeJiSEu5xLHnYfBrRV4RH2+OCSOO95Is/7x1WJ4bw==}
     engines: {node: '>=10'}
 
-  markdown-it@12.3.2:
-    resolution: {integrity: sha512-TchMembfxfNVpHkbtriWltGWc+m3xszaRD0CZup7GFFhzIgQqxIfn3eGj1yZpfuflzPvfkt611B2Q/Bsk1YnGg==}
+  markdown-it@10.0.0:
+    resolution: {integrity: sha512-YWOP1j7UbDNz+TumYP1kpwnP0aEa711cJjrAQrzd0UXlbJfc5aAq0F/PZHjiioqDC1NKgvIMX+o+9Bk7yuM2dg==}
     hasBin: true
 
   math-intrinsics@1.1.0:
@@ -1328,6 +1337,18 @@ packages:
   ora@7.0.1:
     resolution: {integrity: sha512-0TUxTiFJWv+JnjWm4o9yvuskpEJLXTcng8MJuKd+SzAzp2o+OP3HWqNhB4OdJRt1Vsd9/mR0oyaEYlOnL7XIRw==}
     engines: {node: '>=16'}
+
+  os-homedir@1.0.2:
+    resolution: {integrity: sha512-B5JU3cabzk8c67mRRd3ECmROafjYMXbuzlwtqdM8IbS8ktlTix8aFGb2bAGKrSRIlnfKwovGUUr72JUPyOb6kQ==}
+    engines: {node: '>=0.10.0'}
+
+  os-tmpdir@1.0.2:
+    resolution: {integrity: sha512-D2FR03Vir7FIu45XBY20mTb+/ZSWB00sjU9jdQXt83gDrI4Ztz5Fs7/yy74g2N5SVQY4xY1qDr4rNddwYRVX0g==}
+    engines: {node: '>=0.10.0'}
+
+  osenv@0.1.5:
+    resolution: {integrity: sha512-0CWcCECdMVc2Rw3U5w9ZjqX6ga6ubk1xDVKxtBQPK7wis/0F2r9T6k4ydGYhecl7YUBxBVxhL5oisPsNxAPe2g==}
+    deprecated: This package is no longer supported.
 
   own-keys@1.0.1:
     resolution: {integrity: sha512-qFOyK5PjiWZd+QQIh+1jhdb9LpxTF0qs7Pm8o5QHYZ0M3vKqSqzsZaEB6oWlxZ+q2sJBMI/Ktgd2N5ZwQoRHfg==}
@@ -1610,6 +1631,9 @@ packages:
   spdx-license-ids@3.0.21:
     resolution: {integrity: sha512-Bvg/8F5XephndSK3JffaRqdT+gyhfqIPwDHpX80tJrF8QQRYMo8sNMeaZ2Dp5+jhwKnUmIOyFFQfHRkjJm5nXg==}
 
+  sprintf-js@1.0.3:
+    resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
+
   stdin-discarder@0.1.0:
     resolution: {integrity: sha512-xhV7w8S+bUwlPTb4bAOUQhv8/cSS5offJuX8GQGq32ONF0ZtDWKfkdomM3HMRA+LhX6um/FZ0COqlwsjD53LeQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
@@ -1772,8 +1796,8 @@ packages:
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
 
-  url-join@4.0.1:
-    resolution: {integrity: sha512-jk1+QP6ZJqyOiuEI9AEWQfju/nB2Pw466kbA0LEZljHwKeMgd9WrAEgEGxjPDD2+TNbbb37rTyhEfrCXfuKXnA==}
+  url-join@1.1.0:
+    resolution: {integrity: sha512-zz1wZk4Lb5PTVwZ3HWDmm8XnlPvmOof6/fjdDPA5yBrUcbtV64U6bV832Zf1BtU2WkBBWaUT46wCs+l0HP5nhg==}
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
@@ -1785,9 +1809,9 @@ packages:
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
 
-  vsce@2.15.0:
-    resolution: {integrity: sha512-P8E9LAZvBCQnoGoizw65JfGvyMqNGlHdlUXD1VAuxtvYAaHBKLBdKPnpy60XKVDAkQCfmMu53g+gq9FM+ydepw==}
-    engines: {node: '>= 14'}
+  vsce@1.103.1:
+    resolution: {integrity: sha512-98oKQKKRp7J/vTIk1cuzom5cezZpYpRHs3WlySdsrTCrAEipB/HvaPTc4VZ3hGZHzHXS9P5p2L0IllntJeXwiQ==}
+    engines: {node: '>= 10'}
     deprecated: vsce has been renamed to @vscode/vsce. Install using @vscode/vsce instead.
     hasBin: true
 
@@ -2205,6 +2229,10 @@ snapshots:
       normalize-path: 3.0.0
       picomatch: 2.3.1
 
+  argparse@1.0.10:
+    dependencies:
+      sprintf-js: 1.0.3
+
   argparse@2.0.1: {}
 
   array-buffer-byte-length@1.0.2:
@@ -2473,6 +2501,8 @@ snapshots:
       has-property-descriptors: 1.0.2
       object-keys: 1.1.1
 
+  denodeify@1.2.1: {}
+
   detect-libc@2.0.3: {}
 
   diff@5.2.0: {}
@@ -2523,7 +2553,7 @@ snapshots:
       graceful-fs: 4.2.11
       tapable: 2.2.1
 
-  entities@2.1.0: {}
+  entities@2.0.3: {}
 
   entities@4.5.0: {}
 
@@ -3128,7 +3158,7 @@ snapshots:
     dependencies:
       immediate: 3.0.6
 
-  linkify-it@3.0.3:
+  linkify-it@2.2.0:
     dependencies:
       uc.micro: 1.0.6
 
@@ -3144,6 +3174,8 @@ snapshots:
       p-locate: 5.0.0
 
   lodash.merge@4.6.2: {}
+
+  lodash@4.17.21: {}
 
   log-symbols@4.1.0:
     dependencies:
@@ -3165,11 +3197,11 @@ snapshots:
     dependencies:
       semver: 7.7.1
 
-  markdown-it@12.3.2:
+  markdown-it@10.0.0:
     dependencies:
-      argparse: 2.0.1
-      entities: 2.1.0
-      linkify-it: 3.0.3
+      argparse: 1.0.10
+      entities: 2.0.3
+      linkify-it: 2.2.0
       mdurl: 1.0.1
       uc.micro: 1.0.6
 
@@ -3315,6 +3347,15 @@ snapshots:
       stdin-discarder: 0.1.0
       string-width: 6.1.0
       strip-ansi: 7.1.0
+
+  os-homedir@1.0.2: {}
+
+  os-tmpdir@1.0.2: {}
+
+  osenv@0.1.5:
+    dependencies:
+      os-homedir: 1.0.2
+      os-tmpdir: 1.0.2
 
   own-keys@1.0.1:
     dependencies:
@@ -3630,6 +3671,8 @@ snapshots:
 
   spdx-license-ids@3.0.21: {}
 
+  sprintf-js@1.0.3: {}
+
   stdin-discarder@0.1.0:
     dependencies:
       bl: 5.1.0
@@ -3823,7 +3866,7 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  url-join@4.0.1: {}
+  url-join@1.1.0: {}
 
   util-deprecate@1.0.2: {}
 
@@ -3838,25 +3881,28 @@ snapshots:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
 
-  vsce@2.15.0:
+  vsce@1.103.1:
     dependencies:
       azure-devops-node-api: 11.2.0
       chalk: 2.4.2
       cheerio: 1.0.0
       commander: 6.2.1
+      denodeify: 1.2.1
       glob: 7.2.3
       hosted-git-info: 4.1.0
       keytar: 7.9.0
       leven: 3.1.0
-      markdown-it: 12.3.2
+      lodash: 4.17.21
+      markdown-it: 10.0.0
       mime: 1.6.0
       minimatch: 3.1.2
+      osenv: 0.1.5
       parse-semver: 1.1.1
       read: 1.0.7
       semver: 5.7.2
       tmp: 0.2.3
       typed-rest-client: 1.8.11
-      url-join: 4.0.1
+      url-join: 1.1.0
       xml2js: 0.4.23
       yauzl: 2.10.0
       yazl: 2.5.1
