@@ -5,6 +5,7 @@
   "version": "0.0.4",
   "license": "MIT",
   "publisher": "midhunan",
+  "icon": "resources/haskell-logo.png",
   "engines": {
     "vscode": "^1.97.0"
   },
