@@ -3,6 +3,7 @@
   "displayName": "Haskell Run",
   "description": "Haskell Run allows you to run Haskell programs with a single click or shortcut, just like the Python runner in VS Code. No more manually compiling and executing files—simply press a button and see your output instantly in the terminal!",
   "version": "0.0.3",
+  "license": "MIT",
   "publisher": "midhunan",
   "engines": {
     "vscode": "^1.97.0"
@@ -64,19 +65,19 @@
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
-    "@types/node": "~20.17.17",
+    "@types/node": "~22.13.1",
     "@types/vscode": "^1.97.0",
     "@typescript-eslint/eslint-plugin": "^8.23.0",
     "@typescript-eslint/parser": "^8.23.0",
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.4.1",
-    "esbuild": "^0.24.2",
-    "eslint": "^9.19.0",
+    "esbuild": "^0.25.0",
+    "eslint": "^9.20.0",
     "npm-run-all": "^4.1.5",
     "typescript": "^5.7.3"
   },
   "dependencies": {
-    "vsce": "^1.97.0"
+    "vsce": "^2.15.0"
   },
   "repository": {
     "type": "git",
