@@ -7,7 +7,7 @@
   "publisher": "midhunan",
   "icon": "resources/haskell-logo.png",
   "engines": {
-    "vscode": "*"
+    "vscode": "^1.76.0"
   },
   "categories": [
     "Programming Languages"
