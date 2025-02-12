@@ -2,7 +2,7 @@
   "name": "haskellrun",
   "displayName": "Haskell Run",
   "description": "Haskell Run allows you to run Haskell programs with a single click or shortcut, just like the Python runner in VS Code. No more manually compiling and executing files—simply press a button and see your output instantly in the terminal!",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "license": "MIT",
   "publisher": "midhunan",
   "icon": "resources/haskell-logo.png",
