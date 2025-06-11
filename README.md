@@ -2,11 +2,14 @@
 Haskell Run is a simple VS Code extension that allows users to run Haskell code with a single button click.
 
 ## Features
-- **One-click execution** of Haskell programs.
-- **Run individual functions** directly from the editor.
-- **Automatic detection of function names** to prompt for arguments if required.
-- **Supports GHCi integration** for interactive execution.
-- **Works with all VS Code versions** (starting from `1.76.0` and above).
+- **One-click execution** of Haskell programs
+- **Run individual functions** directly from the editor
+- **Automatic tool installation** for missing dependencies
+- **High-contrast theme support** for accessibility
+- **Integrated REPL management**
+- **Code snippets** for common Haskell patterns
+- **Comprehensive error handling** with quick fixes
+- **Detailed troubleshooting guide**
 
 ## Usage Guide
 ### **Running a Haskell File**
@@ -49,13 +52,36 @@ While working with Haskell, students and developers often face challenges with m
 - Execute individual functions without needing to manually type them in the terminal.
 - Improve workflow efficiency by integrating execution seamlessly within VS Code.
 
+## Keyboard Shortcuts
+
+| Command | Windows/Linux | macOS |
+|---------|--------------|-------|
+| Run Haskell File | `Ctrl+Alt+R` | `Cmd+Alt+R` |
+| Run Selected Function | `Ctrl+Alt+F` | `Cmd+Alt+F` |
+| Restart REPL | `Ctrl+Alt+K` | `Cmd+Alt+K` |
+| Clear REPL | `Ctrl+Alt+L` | `Cmd+Alt+L` |
+
+## Code Snippets
+
+| Prefix | Description |
+|--------|-------------|
+| `hmain` | Create a Haskell main function |
+| `hprop` | Create a QuickCheck property |
+| `hdata` | Create a Haskell data type |
+| `hclass` | Create a Haskell type class |
+
 ## Configuration
-This extension automatically detects GHC and GHCi installations. If GHCi is not found, ensure it is installed and available in your system path.
+
+The following settings are available:
+
+- `haskellRun.defaultRunner`: Choose between 'runghc', 'stack runghc', or 'cabal run'
+- `haskellRun.timeout`: Set timeout for long-running scripts (default: 30000ms)
+- `haskellRun.reuseTerminal`: Reuse existing terminal (default: true)
+- `haskellRun.enableTelemetry`: Enable anonymous usage data collection (default: false)
 
 ## Troubleshooting
-- If the extension does not run your Haskell file, ensure GHCi is installed and accessible via the command line.
-- For Windows users, add GHCi to the system PATH.
-- If you encounter permission issues, try running VS Code as an administrator.
+
+See our detailed [Troubleshooting Guide](docs/troubleshooting.md) for solutions to common issues.
 
 ## License
 This project is licensed under the **MIT License**.

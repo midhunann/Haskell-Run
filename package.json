@@ -33,6 +33,25 @@
           "light": "resources/light/function.svg",
           "dark": "resources/dark/function.svg"
         }
+      },
+      {
+        "command": "haskellrun.restartRepl",
+        "title": "Restart Haskell REPL"
+      },
+      {
+        "command": "haskellrun.clearRepl",
+        "title": "Clear Haskell REPL"
+      },
+      {
+        "command": "haskellrun.reportIssue",
+        "title": "Report Issue",
+        "category": "Haskell Run"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "haskell",
+        "path": "./snippets/haskell.json"
       }
     ],
     "menus": {
@@ -47,8 +66,109 @@
           "when": "editorLangId == haskell && editorHasSelection",
           "group": "navigation"
         }
+      ],
+      "view/title": [
+        {
+          "command": "haskellrun.restartRepl",
+          "when": "view == haskellFunctions",
+          "group": "navigation"
+        }
       ]
-    }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "haskell-run",
+          "title": "Haskell Run",
+          "icon": "resources/haskell-logo.png",
+          "when": "haskellrun.hasHaskellFiles"
+        }
+      ]
+    },
+    "views": {
+      "haskell-run": [
+        {
+          "id": "haskellFunctions",
+          "name": "Functions",
+          "contextualTitle": "Haskell Functions",
+          "when": "haskellrun.hasHaskellFiles"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Haskell Run",
+      "properties": {
+        "haskellRun.enableCodeLens": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable CodeLens for running Haskell functions"
+        },
+        "haskellRun.defaultRunner": {
+          "type": "string",
+          "enum": ["runghc", "stack runghc", "cabal run"],
+          "default": "runghc",
+          "description": "Default command to run Haskell files"
+        },
+        "haskellRun.timeout": {
+          "type": "number",
+          "default": 30000,
+          "description": "Timeout for long-running scripts (in milliseconds)"
+        },
+        "haskellRun.reuseTerminal": {
+          "type": "boolean",
+          "default": true,
+          "description": "Reuse existing terminal for running commands"
+        },
+        "haskellRun.telemetry.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable anonymous usage data collection"
+        },
+        "haskellRun.enableTelemetry": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable anonymous usage data collection to help improve the extension"
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "haskellrun.runHaskell",
+        "key": "f5",
+        "mac": "f5",
+        "when": "editorLangId == haskell"
+      },
+      {
+        "command": "haskellrun.runFunction",
+        "key": "shift+f5",
+        "mac": "shift+f5",
+        "when": "editorLangId == haskell"
+      },
+      {
+        "command": "haskellrun.runHaskell",
+        "key": "ctrl+alt+r",
+        "mac": "cmd+alt+r",
+        "when": "editorLangId == haskell"
+      },
+      {
+        "command": "haskellrun.runFunction",
+        "key": "ctrl+alt+f",
+        "mac": "cmd+alt+f",
+        "when": "editorLangId == haskell && editorHasSelection"
+      },
+      {
+        "command": "haskellrun.restartRepl",
+        "key": "ctrl+alt+k",
+        "mac": "cmd+alt+k",
+        "when": "editorLangId == haskell"
+      },
+      {
+        "command": "haskellrun.clearRepl",
+        "key": "ctrl+alt+l",
+        "mac": "cmd+alt+l",
+        "when": "editorLangId == haskell"
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "pnpm run package",
