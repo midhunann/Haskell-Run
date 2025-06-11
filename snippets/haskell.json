@@ -1,0 +1,40 @@
+{
+    "Haskell Main Function": {
+        "prefix": "hmain",
+        "body": [
+            "module Main where",
+            "",
+            "main :: IO ()",
+            "main = do",
+            "    ${1:putStrLn \"Hello, World!\"}"
+        ],
+        "description": "Create a Haskell main function"
+    },
+    "Haskell QuickCheck Property": {
+        "prefix": "hprop",
+        "body": [
+            "prop_${1:name} :: ${2:type}",
+            "prop_$1 ${3:x} = ${4:property}",
+            "    where",
+            "        ${5:definitions}"
+        ],
+        "description": "Create a QuickCheck property"
+    },
+    "Haskell Data Type": {
+        "prefix": "hdata",
+        "body": [
+            "data ${1:TypeName} = ${2:Constructor} {",
+            "    ${3:field} :: ${4:Type}",
+            "} deriving (${5:Show, Eq})"
+        ],
+        "description": "Create a Haskell data type"
+    },
+    "Haskell Type Class": {
+        "prefix": "hclass",
+        "body": [
+            "class ${1:ClassName} a where",
+            "    ${2:method} :: ${3:type}"
+        ],
+        "description": "Create a Haskell type class"
+    }
+}
