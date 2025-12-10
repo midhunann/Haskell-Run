@@ -1,8 +1,8 @@
 # Haskell Run - VS Code Extension
 Haskell Run is a simple VS Code extension that allows users to run Haskell code with a single button click.
+![Screen Recording 2025-12-11 at 00 04 51](https://github.com/user-attachments/assets/2da546e0-594a-464c-8614-87fa6f970679)
 
-![haskell-run-demo](https://github.com/user-attachments/assets/335fdd7e-0151-4a24-a1f6-fc5589deddfb)
-
+---
 
 ## Features
 - **One-click execution** of Haskell programs
