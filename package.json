@@ -1,16 +1,31 @@
 {
   "name": "haskellrun",
   "displayName": "Haskell Run",
-  "description": "Haskell Run allows you to run Haskell programs with a single click or shortcut, just like the Python runner in VS Code. No more manually compiling and executing files—simply press a button and see your output instantly in the terminal!",
-  "version": "1.0.1",
+  "description": "Run Haskell code & functions instantly inside VS Code using GHCi — one-click run, run-selection, run-function.",
+  "version": "1.0.2",
   "license": "MIT",
   "publisher": "midhunan",
   "icon": "resources/haskell-logo.png",
   "engines": {
     "vscode": "^1.97.0"
   },
+  "keywords": [
+    "haskell",
+    "ghci",
+    "run",
+    "execute",
+    "repl",
+    "haskell-run",
+    "run-function",
+    "run-selection",
+    "haskell-snippets",
+    "stack",
+    "cabal",
+    "hls"
+  ],
   "categories": [
-    "Programming Languages"
+    "Programming Languages",
+    "Other"
   ],
   "activationEvents": [
     "onLanguage:haskell"
@@ -20,7 +35,7 @@
     "commands": [
       {
         "command": "haskellrun.runHaskell",
-        "title": "Run Haskell File",
+        "title": "Haskell Run: Run File",
         "icon": {
           "light": "resources/light/play.svg",
           "dark": "resources/dark/play.svg"
@@ -28,7 +43,7 @@
       },
       {
         "command": "haskellrun.runFunction",
-        "title": "Run Selected Haskell Function",
+        "title": "Haskell Run: Run Selection",
         "icon": {
           "light": "resources/light/function.svg",
           "dark": "resources/dark/function.svg"
@@ -36,11 +51,11 @@
       },
       {
         "command": "haskellrun.restartRepl",
-        "title": "Restart Haskell REPL"
+        "title": "Haskell Run: Restart REPL"
       },
       {
         "command": "haskellrun.clearRepl",
-        "title": "Clear Haskell REPL"
+        "title": "Haskell Run: Clear REPL"
       },
       {
         "command": "haskellrun.reportIssue",
@@ -201,5 +216,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/midhunann/Haskell-Run"
+  },
+  "homepage": "https://github.com/midhunann/Haskell-Run",
+  "bugs": {
+    "url": "https://github.com/midhunann/Haskell-Run/issues"
   }
 }
