@@ -2,7 +2,7 @@
   "name": "haskellrun",
   "displayName": "Haskell Run",
   "description": "Run Haskell code & functions instantly inside VS Code using GHCi — one-click run, run-selection, run-function.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "publisher": "midhunan",
   "icon": "resources/haskell-logo.png",
