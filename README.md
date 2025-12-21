@@ -7,7 +7,7 @@
 **Run Haskell code instantly in VS Code — no terminal juggling required**
 
 [![Version](https://img.shields.io/visual-studio-marketplace/v/midhunan.haskellrun?color=blue&label=VS%20Code%20Marketplace)](https://marketplace.visualstudio.com/items?itemName=midhunan.haskellrun)
-[![Downloads](https://img.shields.io/visual-studio-marketplace/d/midhunan.haskellrun)](https://marketplace.visualstudio.com/items?itemName=midhunan.haskellrun)
+[![Installs](https://img.shields.io/visual-studio-marketplace/i/midhunan.haskellrun)](https://marketplace.visualstudio.com/items?itemName=midhunan.haskellrun)
 [![Rating](https://img.shields.io/visual-studio-marketplace/r/midhunan.haskellrun)](https://marketplace.visualstudio.com/items?itemName=midhunan.haskellrun)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](/LICENSE)
 
