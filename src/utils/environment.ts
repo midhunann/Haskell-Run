@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { exec } from 'child_process';
+import { execFile } from 'child_process';
 import { promisify } from 'util';
 
 interface HaskellEnvironment {
@@ -78,7 +78,9 @@ export class EnvironmentManager {
 
         const checkTool = async (tool: string): Promise<string | null> => {
             try {
-                const { stdout } = await promisify(exec)(`${tool} --version`);
+                // Use execFile instead of exec to avoid shell invocation
+                // This is more secure and consistent across environments
+                const { stdout } = await promisify(execFile)(tool, ['--version']);
                 // If the command succeeds, we assume the tool is available.
                 // We return the tool name or version string as confirmation.
                 return stdout.trim() || tool;
