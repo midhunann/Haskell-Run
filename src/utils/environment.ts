@@ -1,19 +1,22 @@
 import * as vscode from 'vscode';
-import * as path from 'path';
 import { exec } from 'child_process';
 import { promisify } from 'util';
 
 interface HaskellEnvironment {
+    /** Version string or tool name if found, null otherwise */
     ghci: string | null;
+    /** Version string or tool name if found, null otherwise */
     runghc: string | null;
+    /** Version string or tool name if found, null otherwise */
     stack: string | null;
 }
 
 export class EnvironmentManager {
     private static instance: EnvironmentManager;
     private envCache: Map<string, HaskellEnvironment> = new Map();
+    // Use a map to track pending validations per workspace to prevent race conditions
+    private pendingValidations: Map<string, Promise<boolean>> = new Map();
     private outputChannel: vscode.OutputChannel;
-    private checking: boolean = false;
 
     private constructor() {
         this.outputChannel = vscode.window.createOutputChannel('Haskell Run');
@@ -26,41 +29,44 @@ export class EnvironmentManager {
         return EnvironmentManager.instance;
     }
 
-    public async validateEnvironment(workspacePath: string): Promise<boolean> {
-        if (this.checking) {
-            return new Promise((resolve) => {
-                const checkInterval = setInterval(() => {
-                    if (!this.checking) {
-                        clearInterval(checkInterval);
-                        resolve(this.isEnvironmentValid(this.envCache.get(workspacePath)!));
-                    }
-                }, 100);
-            });
+    /**
+     * Validates the Haskell environment for the given workspace.
+     * @param workspacePath The path of the workspace to validate.
+     * @param force If true, ignores the cache and forces a re-check.
+     */
+    public async validateEnvironment(workspacePath: string, force: boolean = false): Promise<boolean> {
+        // If a validation is already in progress for this workspace, return that promise
+        if (this.pendingValidations.has(workspacePath)) {
+            return this.pendingValidations.get(workspacePath)!;
         }
 
-        this.checking = true;
+        const validationPromise = (async () => {
+            try {
+                // Check cache first (unless forced)
+                if (!force && this.envCache.has(workspacePath)) {
+                    return this.isEnvironmentValid(this.envCache.get(workspacePath)!);
+                }
 
-        try {
-            // Check cache first
-            if (this.envCache.has(workspacePath)) {
-                return this.isEnvironmentValid(this.envCache.get(workspacePath)!);
-            }
+                const env = await this.detectTools();
+                this.envCache.set(workspacePath, env);
 
-            const env = await this.detectTools();
-            this.envCache.set(workspacePath, env);
+                if (!this.isEnvironmentValid(env)) {
+                    await this.showInstallPrompt();
+                    return false;
+                }
 
-            if (!this.isEnvironmentValid(env)) {
-                await this.showInstallPrompt();
+                return true;
+            } catch (error) {
+                this.outputChannel.appendLine(`Error validating environment: ${error}`);
                 return false;
+            } finally {
+                // Cleanup the pending promise
+                this.pendingValidations.delete(workspacePath);
             }
+        })();
 
-            return true;
-        } catch (error) {
-            this.outputChannel.appendLine(`Error validating environment: ${error}`);
-            return false;
-        } finally {
-            this.checking = false;
-        }
+        this.pendingValidations.set(workspacePath, validationPromise);
+        return validationPromise;
     }
 
     private async detectTools(): Promise<HaskellEnvironment> {
@@ -77,6 +83,8 @@ export class EnvironmentManager {
                 // We return the tool name or version string as confirmation.
                 return stdout.trim() || tool;
             } catch (error) {
+                // Log the error for better visibility
+                this.outputChannel.appendLine(`[Environment Check] Failed to find ${tool}: ${error}`);
                 return null;
             }
         };
@@ -169,6 +177,7 @@ export class EnvironmentManager {
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         // Install GHCup on Windows
+        // Assumes PowerShell is available and configured
         terminal.sendText('powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString(\'https://www.haskell.org/ghcup/sh/bootstrap-haskell.ps1\'))"');
 
         outputChannel.appendLine('Installing Haskell tools via GHCup...');
