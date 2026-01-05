@@ -1,17 +1,22 @@
 import * as vscode from 'vscode';
-import * as path from 'path';
+import { execFile } from 'child_process';
+import { promisify } from 'util';
 
 interface HaskellEnvironment {
+    /** Version string or tool name if found, null otherwise */
     ghci: string | null;
+    /** Version string or tool name if found, null otherwise */
     runghc: string | null;
+    /** Version string or tool name if found, null otherwise */
     stack: string | null;
 }
 
 export class EnvironmentManager {
     private static instance: EnvironmentManager;
     private envCache: Map<string, HaskellEnvironment> = new Map();
+    // Use a map to track pending validations per workspace to prevent race conditions
+    private pendingValidations: Map<string, Promise<boolean>> = new Map();
     private outputChannel: vscode.OutputChannel;
-    private checking: boolean = false;
 
     private constructor() {
         this.outputChannel = vscode.window.createOutputChannel('Haskell Run');
@@ -24,41 +29,44 @@ export class EnvironmentManager {
         return EnvironmentManager.instance;
     }
 
-    public async validateEnvironment(workspacePath: string): Promise<boolean> {
-        if (this.checking) {
-            return new Promise((resolve) => {
-                const checkInterval = setInterval(() => {
-                    if (!this.checking) {
-                        clearInterval(checkInterval);
-                        resolve(this.isEnvironmentValid(this.envCache.get(workspacePath)!));
-                    }
-                }, 100);
-            });
+    /**
+     * Validates the Haskell environment for the given workspace.
+     * @param workspacePath The path of the workspace to validate.
+     * @param force If true, ignores the cache and forces a re-check.
+     */
+    public async validateEnvironment(workspacePath: string, force: boolean = false): Promise<boolean> {
+        // If a validation is already in progress for this workspace, return that promise
+        if (this.pendingValidations.has(workspacePath)) {
+            return this.pendingValidations.get(workspacePath)!;
         }
 
-        this.checking = true;
+        const validationPromise = (async () => {
+            try {
+                // Check cache first (unless forced)
+                if (!force && this.envCache.has(workspacePath)) {
+                    return this.isEnvironmentValid(this.envCache.get(workspacePath)!);
+                }
 
-        try {
-            // Check cache first
-            if (this.envCache.has(workspacePath)) {
-                return this.isEnvironmentValid(this.envCache.get(workspacePath)!);
-            }
+                const env = await this.detectTools();
+                this.envCache.set(workspacePath, env);
 
-            const env = await this.detectTools();
-            this.envCache.set(workspacePath, env);
+                if (!this.isEnvironmentValid(env)) {
+                    await this.showInstallPrompt();
+                    return false;
+                }
 
-            if (!this.isEnvironmentValid(env)) {
-                await this.showInstallPrompt();
+                return true;
+            } catch (error) {
+                this.outputChannel.appendLine(`Error validating environment: ${error}`);
                 return false;
+            } finally {
+                // Cleanup the pending promise
+                this.pendingValidations.delete(workspacePath);
             }
+        })();
 
-            return true;
-        } catch (error) {
-            this.outputChannel.appendLine(`Error validating environment: ${error}`);
-            return false;
-        } finally {
-            this.checking = false;
-        }
+        this.pendingValidations.set(workspacePath, validationPromise);
+        return validationPromise;
     }
 
     private async detectTools(): Promise<HaskellEnvironment> {
@@ -68,57 +76,33 @@ export class EnvironmentManager {
             stack: null
         };
 
-        const terminal = vscode.window.createTerminal({ 
-            name: 'Haskell Environment Check', 
-            hideFromUser: true 
-        });
+        const checkTool = async (tool: string): Promise<string | null> => {
+            try {
+                // Use execFile instead of exec to avoid shell invocation
+                // This is more secure and consistent across environments
+                const { stdout } = await promisify(execFile)(tool, ['--version']);
+                // If the command succeeds, we assume the tool is available.
+                // We return the tool name or version string as confirmation.
+                return stdout.trim() || tool;
+            } catch (error) {
+                // Log the error for better visibility
+                this.outputChannel.appendLine(`[Environment Check] Failed to find ${tool}: ${error}`);
+                return null;
+            }
+        };
 
-        try {
-            const checkCommand = process.platform === 'win32' ? 
-                'where' : 'which';
+        // Run checks in parallel
+        const [ghciResult, runghcResult, stackResult] = await Promise.all([
+            checkTool('ghci'),
+            checkTool('runghc'),
+            checkTool('stack')
+        ]);
 
-            // Check for GHCi
-            const ghciPromise = new Promise<void>((resolve) => {
-                terminal.sendText(`${checkCommand} ghci > /tmp/ghci_path 2>/dev/null || echo "not found" > /tmp/ghci_path`);
-                setTimeout(async () => {
-                    try {
-                        const content = (await vscode.workspace.fs.readFile(vscode.Uri.file('/tmp/ghci_path'))).toString().trim();
-                        env.ghci = content !== "not found" ? content : null;
-                    } catch {}
-                    resolve();
-                }, 500);
-            });
+        env.ghci = ghciResult;
+        env.runghc = runghcResult;
+        env.stack = stackResult;
 
-            // Check for runghc
-            const runghcPromise = new Promise<void>((resolve) => {
-                terminal.sendText(`${checkCommand} runghc > /tmp/runghc_path 2>/dev/null || echo "not found" > /tmp/runghc_path`);
-                setTimeout(async () => {
-                    try {
-                        const content = (await vscode.workspace.fs.readFile(vscode.Uri.file('/tmp/runghc_path'))).toString().trim();
-                        env.runghc = content !== "not found" ? content : null;
-                    } catch {}
-                    resolve();
-                }, 500);
-            });
-
-            // Check for stack
-            const stackPromise = new Promise<void>((resolve) => {
-                terminal.sendText(`${checkCommand} stack > /tmp/stack_path 2>/dev/null || echo "not found" > /tmp/stack_path`);
-                setTimeout(async () => {
-                    try {
-                        const content = (await vscode.workspace.fs.readFile(vscode.Uri.file('/tmp/stack_path'))).toString().trim();
-                        env.stack = content !== "not found" ? content : null;
-                    } catch {}
-                    resolve();
-                }, 500);
-            });
-
-            await Promise.all([ghciPromise, runghcPromise, stackPromise]);
-            
-            return env;
-        } finally {
-            terminal.dispose();
-        }
+        return env;
     }
 
     private isEnvironmentValid(env: HaskellEnvironment): boolean {
@@ -165,17 +149,17 @@ export class EnvironmentManager {
     public async checkRequiredTools(): Promise<string[]> {
         const env = await this.detectTools();
         const missingTools: string[] = [];
-        
+
         if (!env.ghci) { missingTools.push('ghci'); }
         if (!env.runghc) { missingTools.push('runghc'); }
         if (!env.stack) { missingTools.push('stack'); }
-        
+
         return missingTools;
     }
 
     public async installMissingTools(tools: string[], outputChannel: vscode.OutputChannel): Promise<void> {
         const platform = process.platform;
-        
+
         if (platform === 'win32') {
             await this.installToolsWindows(tools, outputChannel);
         } else {
@@ -187,35 +171,36 @@ export class EnvironmentManager {
         // Check if chocolatey is installed
         const terminal = vscode.window.createTerminal('Haskell Tool Installation');
         terminal.show();
-        
+
         outputChannel.appendLine('Checking for Chocolatey package manager...');
         terminal.sendText('where choco.exe', true);
-        
+
         // Wait for chocolatey check
         await new Promise(resolve => setTimeout(resolve, 1000));
-        
+
         // Install GHCup on Windows
+        // Assumes PowerShell is available and configured
         terminal.sendText('powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString(\'https://www.haskell.org/ghcup/sh/bootstrap-haskell.ps1\'))"');
-        
+
         outputChannel.appendLine('Installing Haskell tools via GHCup...');
     }
 
     private async installToolsUnix(tools: string[], outputChannel: vscode.OutputChannel): Promise<void> {
         const terminal = vscode.window.createTerminal('Haskell Tool Installation');
         terminal.show();
-        
+
         outputChannel.appendLine('Installing GHCup...');
         terminal.sendText('curl --proto \'=https\' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh');
-        
+
         // Source ghcup environment
         terminal.sendText('source ~/.ghcup/env');
-        
+
         // Install required tools
         for (const tool of tools) {
             outputChannel.appendLine(`Installing ${tool}...`);
             terminal.sendText(`ghcup install ${tool}`);
         }
-        
+
         outputChannel.appendLine('Installation complete. Please restart VS Code to use the new tools.');
     }
 
