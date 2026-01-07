@@ -51,8 +51,10 @@
       },
       {
         "command": "haskellrun.restartRepl",
-        "title": "Haskell Run: Restart REPL"
-      },
+        "title": "Restart REPL",
+        "category": "Haskell Run",
+        "icon": "$(refresh)"
+     },
       {
         "command": "haskellrun.clearRepl",
         "title": "Haskell Run: Clear REPL"
