@@ -287,10 +287,7 @@ export async function activate(context: vscode.ExtensionContext) {
                 
                 outputChannel.appendLine(`[DEBUG] Loading module: ${documentUri.fsPath}`);
                 await replManager.loadModule(workspacePath, documentUri.fsPath);
-                
-                // Add a small delay to ensure module is loaded
-                await new Promise(resolve => setTimeout(resolve, 500));
-                
+
                 outputChannel.appendLine(`[DEBUG] Evaluating function: ${actualFunctionName}`);
                 await replManager.evaluateInRepl(workspacePath, actualFunctionName);
                 
@@ -322,9 +319,9 @@ export async function activate(context: vscode.ExtensionContext) {
         }
     });
 
-    const clearRepl = vscode.commands.registerCommand('haskellrun.clearRepl', () => {
+    const clearRepl = vscode.commands.registerCommand('haskellrun.clearRepl', async () => {
         if (workspacePath) {
-            replManager.clearRepl(workspacePath);
+            await replManager.clearRepl(workspacePath);
         }
     });
 
