@@ -100,6 +100,7 @@ class GhciSession implements vscode.Pseudoterminal {
     private activeCommand?: ActiveCommand;
     private commandSequence = 0;
     private closed = false;
+    private disposed = false;
     private closeNotified = false;
     private readyResolve!: () => void;
     private readyReject!: (error: Error) => void;
@@ -116,7 +117,7 @@ class GhciSession implements vscode.Pseudoterminal {
     }
 
     public open(): void {
-        if (this.ghci || this.closed) {
+        if (this.ghci || this.closed || this.disposed) {
             return;
         }
 
@@ -152,9 +153,15 @@ class GhciSession implements vscode.Pseudoterminal {
     }
 
     public close(): void {
+        if (this.disposed) {
+            return;  // Already closed - prevent double disposal of EventEmitters
+        }
+
+        this.disposed = true;
         this.closed = true;
         this.rejectActiveAndQueued(new Error('GHCi session closed'));
 
+        // Kill the GHCi child process if it's still running
         if (this.ghci && !this.ghci.killed) {
             this.ghci.kill();
         }
@@ -171,7 +178,7 @@ class GhciSession implements vscode.Pseudoterminal {
     public async runCommand(command: string, timeoutMs = DEFAULT_COMMAND_TIMEOUT_MS): Promise<string> {
         await this.ready;
 
-        if (!this.ghci || this.closed) {
+        if (!this.ghci || this.closed || this.disposed) {
             throw new Error('GHCi session is not available');
         }
 
@@ -348,9 +355,18 @@ export class ReplManager {
     }
 
     public disposeAll(): void {
+        // CRITICAL: Close all GhciSession instances to properly kill child GHCi processes
+        // This prevents zombie processes from being left behind on extension deactivation
+        for (const session of this.sessions.values()) {
+            session.close();
+        }
+
+        // Dispose all terminal UI elements
         for (const terminal of this.terminals.values()) {
             terminal.dispose();
         }
+
+        // Clear all tracking maps
         this.terminals.clear();
         this.sessions.clear();
         this.modules.clear();

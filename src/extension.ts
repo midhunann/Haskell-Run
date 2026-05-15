@@ -366,7 +366,18 @@ export async function activate(context: vscode.ExtensionContext) {
 }
 
 export function deactivate() {
-    // Clean up
-    ReplManager.getInstance().disposeAll();
-    console.log('Haskell Run extension deactivated.');
+    try {
+        // Clean up REPL manager - this kills all GHCi child processes
+        ReplManager.getInstance().disposeAll();
+
+        // Clear environment cache
+        EnvironmentManager.getInstance().clearCache();
+
+        // Clear diagnostics
+        DiagnosticsManager.getInstance().clearDiagnostics();
+
+        console.log('Haskell Run extension deactivated - all resources cleaned up.');
+    } catch (error) {
+        console.error('Error during extension deactivation:', error);
+    }
 }
